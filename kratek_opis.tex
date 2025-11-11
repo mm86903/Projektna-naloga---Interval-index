@@ -1,0 +1,72 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+
+
+\DeclareMathOperator{\Int}{Int}
+\theoremstyle{plain}
+\newtheorem{definicija}{Definicija}[section]
+\newtheorem{izrek}{Izrek}[section]
+
+
+
+\title{ Interval index}
+\author{Marija Mrvar in Jure Jerman \\ Projektna naloga}
+\date{November 2025}
+
+
+
+\begin{document}
+\maketitle
+
+\section{Uvod in definicije}
+
+
+Naj bo $G = (V,E)$ končen, povezan in neusmerjen graf brez večkratnih povezav in zank.
+
+\begin{definicija}
+Za poljubni različni vozlišči $u, v \in V$ definiramo množico:
+\[
+I_G(u,v) = \bigl\{ w \in V \mid d_G(u,w) + d_G(w,v) = d_G(u,v) \bigr\}.
+\]
+Množica $I_G(u,v)$ vsebuje vsa vozlišča, ki ležijo na vsaj eni najkrajši $u$--$v$ poti v grafu $G$.
+\end{definicija}
+
+
+\begin{definicija}
+Intervalni indeks grafa $G$ je definiran kot
+\[
+\Int(G) = \sum_{\substack{\{u,v\}\subset V}} \bigl( |I_G(u,v)| - 1 \bigr).
+\]
+\end{definicija}
+
+
+
+Ekstremna primera sta:
+\begin{itemize}
+    \item Pot $P_n$
+    \item Popoln graf $K_n$
+\end{itemize}
+
+\section{Cilji}
+
+V okviru naloge se bomo osredotočili na dva glavna cilja:
+
+\begin{enumerate}
+    \item Dokazati, da med vsemi grafi z $n$ vozlišči intervalni indeks $\Int(G)$ maksimizira pot $P_n$.
+    \item Med vsemi povezanimi kubičnimi (3-regularnimi) grafi na $n$ vozliščih poiskati:
+    \begin{itemize}
+        \item graf z minimalno vrednostjo $\Int(G)$,
+        \item graf z maksimalno vrednostjo $\Int(G)$,
+    \end{itemize}
+    ter opisati strukturne lastnosti teh ekstremalnih grafov (premer, število najkrajših poti, itd.).
+\end{enumerate}
+
+
+
+\end{document}
