@@ -1,4 +1,0 @@
-Navodila za sage, če ti ne najde kernelja v jupyterju: 
-sage -python -m jupyter kernelspec install /home/sage/sage/local/var/lib/sage/venv-python3.12.5/share/jupyter/kernels/sagemath --user
-
-potem pa samo Developer: Reload Window
