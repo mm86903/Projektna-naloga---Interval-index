@@ -1,0 +1,183 @@
+\documentclass[12pt, a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[slovene]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{ amssymb}
+\usepackage{booktabs}
+
+
+\usepackage{makeidx}
+
+\usepackage{tikz} % za risanje
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{graphicx} % za delo s slikami
+\usepackage{hyperref}
+
+
+\theoremstyle{plain}
+\newtheorem{definicija}{Definicija}[section]
+\newtheorem{izrek}{Izrek}[section]
+
+\DeclareMathOperator{\Int}{Int}
+
+
+
+
+\begin{document}
+\begin{titlepage}
+
+    \raggedright
+    {\large UNIVERZA V LJUBLJANI\\}
+    {\large FAKULTETA ZA MATEMATIKO IN FIZIKO\\}
+    \vspace{0.5cm}
+    {\large Finančna matematika – 1. stopnja\\}
+    
+    \centering
+    \vspace*{6cm} 
+    {\large Marija Mrvar, Jure Jerman\\}
+    \vspace{0.5cm}
+    {\Huge\bfseries Interval index\\} 
+    \vspace{1.0cm}
+    {\large Projektna naloga\\}
+    \vspace{0.5cm}
+    {\large Mentorja: prof.\ dr.\ Riste Škrekovski,\\}
+    {\large dr.\ Timotej Hrga\\}
+
+    \vfill
+    \raggedright
+    {\large Ljubljana, 2025}
+
+\end{titlepage}
+
+
+\tableofcontents
+% kazalo vsebine
+
+\newpage
+
+\section{Uvod}
+
+V tem poročilu obravnavamo intervalni indeks $\Int(G)$, ki za graf $G$
+meri, kako ``razpršene'' so oznake vozlišč, ki se pojavljajo na njegovih povezavah.
+Višja kot je vrednost $\Int(G)$, bolj so sosednja vozlišča daleč narazen
+po svoji oznaki.
+
+Zanimalo nas je dvoje:
+
+\begin{enumerate}
+    \item med vsemi povezanimi grafi na $n$ vozliščih preveriti,
+          ali ima pot $P_n$ največji intervalni indeks;
+    \item med vsemi povezanimi kubičnimi (3-regularnimi) grafi na $n$ vozliščih
+          poiskati graf z minimalnim in maksimalnim intervalnim indeksom ter
+          opisati njune strukturne značilnosti.
+\end{enumerate}
+
+Za izračune smo uporabili SageMath.
+
+
+\section{Osnovne definicije}
+V vseh nadaljinih definicijah predpostavimo, da je $G = (V,E)$ končen, povezan in neusmerjen graf brez večkratnih povezav in zank.
+
+\begin{definicija}
+Za poljubni različni vozlišči $u, v \in V$ definiramo množico:
+\[
+I_G(u,v) = \bigl\{ w \in V \mid d_G(u,w) + d_G(w,v) = d_G(u,v) \bigr\}.
+\]
+Množica $I_G(u,v)$ vsebuje vsa vozlišča, ki ležijo na vsaj eni najkrajši $u$--$v$ poti v grafu $G$, vključno z vozliščema $u$ in $v$.
+\end{definicija}
+
+
+\begin{definicija}
+Intervalni indeks grafa $G$ je definiran kot
+\[
+\Int(G) = \sum_{\substack{\{u,v\}\subset V}} \bigl( |I_G(u,v)| - 1 \bigr).
+\]
+\end{definicija}
+
+
+\begin{definicija}
+Graf $G=(V,E)$ je množica vozlišč $V=\{1,2,\dots,n\}$ in množica povezav $E$.
+Pravimo, da je povezan, če med vsakima dvema vozliščema obstaja pot.
+\end{definicija}
+
+\begin{definicija}
+Pot $P_n$ je preprost povezan graf z $n$ vozlišči in $n-1$ povezavami, pri čemer so vozlišča urejena v zaporedju, tako da je vsako vozlišče (razen prvega in zadnjega) povezano z natanko dvema sosedoma
+\end{definicija}
+
+
+\begin{definicija}
+Graf je $k$-regularen, če ima vsako vozlišče stopnjo $k$.
+Za $k=3$ govorimo o kubičnih grafih.
+\end{definicija}
+
+
+\section{Analiziranje intervalnega indeksa za pot $P_n$}
+
+Najprej smo si ogledali intervalni indeks poti in pogledali vrednosti za vse $n < 100$. Očitno 
+je bilo da indeks raste, kar je razvidno tudi v spodnnji sliki.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Posnetek zaslona 2025-12-10 104135.png}
+    \caption{Rast intervalnega indeksa za pot}
+\end{figure}
+
+Primerjavo intervalnega indeksa $\Int(G)$ za pot $P_n$ z drugimi grafi pa smo analizirali na dva načina, in sicer, najprej smo uprabili 
+ukaz geng in z njim definirali funkcijo \texttt{test\_path\_maximal}, s katerim smo primerjali indeks poti z indeksom vseh možnih grafov na vozliščih stopnje
+$n \leq 9$, za večje $n$ pa nam s tem ukazom ni uspelo pokazati, saj je bilo grafov za prveriti preveč 
+(poizkus preverjanja za $n = 10$ je namreč trajalo 1512 min in še ni uspelo). 
+
+Tako smo za preverjanje večjih grafov ($n \geq 10$) definirali funkcijo \\ \texttt{test\_path\_vs\_random},
+pri kateri smo uporabili ukaz graphs.RandomGNP, ki nam generira naključni graf po modelu Erdős–Rény
+glede na podano verjetnost, ali ustvari rob ali ne. S tem smo si tako pomagali, da smo
+testirali intervalni indeks poti in naključnjega grafa za $n = 100$ in v vseh primerih je imela pot tako kot
+prej večji indeks v vseh poskusih. \\
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Posnetek zaslona 2025-12-10 105834.png}
+    \caption{Intervalni indeks poti in nakjučnega grafa za n = 100}
+\end{figure}
+
+
+
+
+Ključni razlog, zakaj pot maksimira $\Int(G)$ med povezanimi grafi, je:
+\begin{itemize}
+    \item da je pot edini povezani graf, kjer ni nobene "bližnjice",
+    \item vsak par sosednjih vozlišč je v oznakah čim dlje narazen,
+    \item dodajanje nove povezave v graf (npr. cikla)
+          vedno povzroči nove najkraše poti.
+\end{itemize}
+
+Če povzamemo, lahko najpreprostejše rečemo, da poti maksimizirajo razdaljo med
+vozlišči, ker je graf kar se da "raztegnjen" v eno smer.
+
+
+
+
+\section{Zaključek}
+
+Pokazali smo, da ima pot $P_n$ največji intervalni indeks med vsemi
+povezanimi grafi iste velikosti.
+Raziskali smo tudi kubične grafe in za vsako velikost določili grafa
+z minimalnim in maksimalnim intervalnim indeksom.
+
+Metoda se lahko razširi tudi na druge razrede grafov, npr.\ regularne grafe višjih stopenj,
+drevesa ali naključne grafe.
+
+
+
+\end{document}
+
