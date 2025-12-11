@@ -1,0 +1,5 @@
+\babel@toc {slovene}{}\relax 
+\contentsline {section}{\numberline {1}Uvod}{2}{section.1}%
+\contentsline {section}{\numberline {2}Osnovne definicije}{2}{section.2}%
+\contentsline {section}{\numberline {3}Analiziranje intervalnega indeksa za pot $P_n$}{3}{section.3}%
+\contentsline {section}{\numberline {4}Zaključek}{4}{section.4}%
