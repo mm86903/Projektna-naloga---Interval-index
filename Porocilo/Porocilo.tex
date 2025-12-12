@@ -24,6 +24,9 @@
 \usepackage{graphicx} % za delo s slikami
 \usepackage{hyperref}
 
+\usepackage{placeins}
+
+
 
 \theoremstyle{plain}
 \newtheorem{definicija}{Definicija}[section]
@@ -163,15 +166,94 @@ Ključni razlog, zakaj pot maksimira $\Int(G)$ med povezanimi grafi, je:
 Če povzamemo, lahko najpreprostejše rečemo, da poti maksimizirajo razdaljo med
 vozlišči, ker je graf kar se da "raztegnjen" v eno smer.
 
+\section{Metahevristika za iskanje ekstremov pri kubičnih grafih}
+
+Ker je število povezanih kubičnih grafov na $n$ vozliščih za $n>10$ že 
+zelo veliko, smo uporabili metahevristiko --- splošno strategijo za iskanje dobrih (ne nujno optimalnih) rešitev v zelo velikih iskalnih prostorih.
+
+Izbrali smo eno najpreprostejših in najučinkovitejših metahevristik: 
+\textbf{Hill-Climbing}. Algoritem deluje tako:
+
+\begin{enumerate}
+    \item Začnemo z naključnim povezanim kubičnim grafom $S$.
+    \item V vsakem koraku naredimo majhno naključno spremembo ("tweak"): v našem primeru izberemo dva disjunktna roba in ju zamenjamo na enega od dveh možnih načinov (t.i. \textit{double edge swap}).
+    \item Pomembno: sprememba mora ohraniti 3-regularnost grafa, zato vedno preverimo stopnje vseh vozlišč in sprejmemo samo veljavne zamenjave.
+    \item Če ima novi graf večji (ali manjši) intervalni indeks kot trenutni, ga obdržimo in nadaljujemo iz njega.
+    \item Postopek ponavljamo več tisočkrat ali dokler se vrednost ne izboljša več.
+\end{enumerate}
+
+
+Za majhne $n \leq 10$ smo kljub temu izvedli celoten pregled vseh kubičnih grafov z funkcijo \texttt{sistematicni\_kubicni},
+Za večje $n > 10$  pa smo uporabili zgornjo metahevristiko z večimi ponovitvami z funkcijo \\\texttt{metahevristika\_kubicni}.
+
+\subsection{Uporabljene opazovane lastnosti grafov}
+Za vsak ekstremni graf (z minimalnim oz. maksimalnim $\operatorname{Int}(G)$) smo izračunali:
+\begin{itemize}
+    \item premer grafa ozdiameter,
+    \item radij oz. radius,
+    \item obseg oz. girth,
+    \item bipartitnost oz. dvodelnost,
+    \item število robov,
+    \item število vozlišč
+    \item Hamiltonovost.
+\end{itemize}
+
+\subsection{Ključne ugotovitve}
+\begin{itemize}
+    \item Grafi z najmanjšim intervalnim indeksom imajo praviloma majhen premer.
+    Izkazalo se je tudi, da je bilo veliko grafov Hamiltonovih.
+    \item Grafi z največjim indeksom imajo večji premer in strukturo, imajo pa za razliko od tistih 
+    z manjšim indeksom, manjši obseg. Grafi so izgledali tudi precej simetrično.
+\end{itemize}
+
+\pagebreak
+\subsubsection{Graf za $n = 10$ z maksimalnem indeksom}
+
+
+\begin{figure}[!htbp]
+    \centering
+    
+    \begin{minipage}[t]{0.28\textwidth}  % <-- [t] poravna po vrhu
+        \centering
+        \includegraphics[width=\textwidth]{slika1.png}
+        \caption{Graf za $n = 10$ z maksimalnem indeksom}
+        \label{fig:slika1}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.40\textwidth} 
+        \includegraphics[width=\textwidth]{slika2.png}
+        \caption{Graf za $n = 10$ z minimalnem indeksom}
+        \label{fig:slika2}
+    \end{minipage}
+
+\end{figure}
+
+\FloatBarrier
+
+\pagebreak
+\subsubsection{Graf za $n = 16$ z maksimalnem indeksom}
+\begin{figure}[!htbp]
+    \centering
+    
+    \begin{minipage}[t]{0.3\textwidth}  % <-- [t] poravna po vrhu
+        \centering
+        \includegraphics[width=\textwidth]{slika3.png}
+        \caption{Graf za $n = 16$ z maksimalnem indeksom}
+        \label{fig:slika1}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth} 
+        \includegraphics[width=\textwidth]{slika4.png}
+        \caption{Graf za $n = 16$ z minimalnem indeksom}
+        \label{fig:slika2}
+    \end{minipage}
+
+\end{figure}
 
 
 
-\section{Zaključek}
-
-Pokazali smo, da ima pot $P_n$ največji intervalni indeks med vsemi
-povezanimi grafi iste velikosti.
-
-
+\FloatBarrier  %zato ker nam drugače slikico nekam cudno zamakne
+\pagebreak
 \nocite{*}
 \bibliographystyle{siam}
 \bibliography{literatura}
